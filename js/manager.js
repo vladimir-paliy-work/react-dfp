@@ -389,10 +389,14 @@ const DFPManager = Object.assign(new EventEmitter().setMaxListeners(0), {
                 // eslint-disable-next-line guard-for-in,no-restricted-syntax
                 for (const idx in slots) {
                   const slot = slots[idx];
-                  slots.push(slot.gptSlot);
-                  delete slot.gptSlot;
+                  if (slot && slot.gptSlot) {
+                    slots.push(slot.gptSlot);
+                    delete slot.gptSlot;
+                  }
                 }
-                googletag.destroySlots(slots);
+                if (slots.length > 0) {
+                  googletag.destroySlots(slots);
+                }
               } else {
                 googletag.destroySlots();
               }
